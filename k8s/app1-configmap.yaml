@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app1-config
+  namespace: nettest
+data:
+  SERVICE_NAME: "app1-loadgen"
+  TARGET_URL: "http://app2-service:8080"
+  LOAD_RPS: "200"
+  THREAD_POOL_SIZE: "100"
+  KEEP_ALIVE: "true"
