@@ -15,9 +15,15 @@ spec:
     spec:
       containers:
       - name: app2
-        image: kumarshubham16/app2:v1
+        image: asia-south1-docker.pkg.dev/saas-dev-314407/demo/app2:v1
         ports:
         - containerPort: 8080
+        volumeMounts:
+        - name: log-volume
+          mountPath: /var/log/app2
+        envFrom:
+        - configMapRef:
+            name: app2-config
         env:
         - name: POD_NAME
           valueFrom:
@@ -27,3 +33,13 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+      volumes:
+      - name: log-volume
+        emptyDir: {}
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 200m
+          memory: 256Mi

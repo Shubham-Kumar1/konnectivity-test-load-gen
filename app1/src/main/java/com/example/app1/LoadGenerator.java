@@ -8,12 +8,17 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.*;
 
 @Component
 public class LoadGenerator {
+
+  private static final Logger logger = LoggerFactory.getLogger(LoadGenerator.class);
 
   @Value("${SERVICE_NAME:app1}")
   private String serviceName;
@@ -44,11 +49,10 @@ public class LoadGenerator {
     this.rest = createRestTemplate();
     this.pool = Executors.newFixedThreadPool(threadPoolSize);
 
-    System.out.println("=== Load Generator Started ===");
-    System.out.printf("Service: %s, Pod: %s, Host: %s%n", serviceName, podName, hostname);
-    System.out.printf("Target: %s, RPS: %d, Threads: %d, KeepAlive: %b%n",
-        targetUrl, rps, threadPoolSize, keepAlive);
-    System.out.println("==============================");
+    logger.info("=== Load Generator Started ===");
+    logger.info("Service: {}, Pod: {}, Host: {}", serviceName, podName, hostname);
+    logger.info("Target: {}, RPS: {}, Threads: {}, KeepAlive: {}", targetUrl, rps, threadPoolSize, keepAlive);
+    logger.info("==============================");
 
     ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     int perTick = Math.max(1, rps / 5);
@@ -62,10 +66,10 @@ public class LoadGenerator {
 
   private RestTemplate createRestTemplate() {
     if (keepAlive) {
-      System.out.println("Using Keep-Alive");
+      logger.info("Using Keep-Alive");
       return new RestTemplate();
     } else {
-      System.out.println("Disabling Keep-Alive");
+      logger.info("Disabling Keep-Alive");
       SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory() {
         @Override
         protected void prepareConnection(java.net.HttpURLConnection conn, String method)
@@ -98,9 +102,9 @@ public class LoadGenerator {
       ResponseEntity<String> resp = rest.postForEntity(url, entity, String.class);
       long elapsedMs = (System.nanoTime() - start) / 1_000_000;
 
-      System.out.printf("[%s] Sent POST -> %s (%d ms)%n", Instant.now(), resp.getStatusCode(), elapsedMs);
+      logger.info("[{}] Sent POST -> {} ({} ms)", Instant.now(), resp.getStatusCode(), elapsedMs);
     } catch (Exception ex) {
-      System.err.println("Error: " + ex.getMessage());
+      logger.error("Error sending POST request: {}", ex.getMessage(), ex);
     }
   }
 }
