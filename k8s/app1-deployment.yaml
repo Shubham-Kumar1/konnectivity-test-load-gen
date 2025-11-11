@@ -28,3 +28,13 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+      volumes:
+      - name: log-volume
+        emptyDir: {}
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 200m
+          memory: 256Mi

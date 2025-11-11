@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app2-config
+  namespace: nettest
+data:
+  RESPONSE_DELAY_MS: "500"
+

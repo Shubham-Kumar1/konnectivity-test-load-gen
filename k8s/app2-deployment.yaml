@@ -18,6 +18,12 @@ spec:
         image: kumarshubham16/app2:v1@sha256:80bfb571dc4b57340c4f89e1ebe89ee9d4c5e1789d93cdc1a036dd7754030f87
         ports:
         - containerPort: 8080
+        volumeMounts:
+        - name: log-volume
+          mountPath: /var/log/app2
+        envFrom:
+        - configMapRef:
+            name: app2-config
         env:
         - name: POD_NAME
           valueFrom:
@@ -27,3 +33,13 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+      volumes:
+      - name: log-volume
+        emptyDir: {}
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 200m
+          memory: 256Mi
