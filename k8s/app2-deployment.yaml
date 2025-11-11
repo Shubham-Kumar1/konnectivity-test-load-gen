@@ -4,7 +4,7 @@ metadata:
   name: app2
   namespace: nettest
 spec:
-  replicas: 3
+  replicas: 2 
   selector:
     matchLabels:
       app: app2
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: app2
-        image: asia-south1-docker.pkg.dev/saas-dev-314407/demo/app2:v1
+        image: kumarshubham16/app2:v1@sha256:80bfb571dc4b57340c4f89e1ebe89ee9d4c5e1789d93cdc1a036dd7754030f87
         ports:
         - containerPort: 8080
         volumeMounts:

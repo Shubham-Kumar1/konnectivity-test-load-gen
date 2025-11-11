@@ -4,7 +4,7 @@ metadata:
   name: app1
   namespace: nettest
 spec:
-  replicas: 3
+  replicas: 2 
   selector:
     matchLabels:
       app: app1
@@ -15,10 +15,7 @@ spec:
     spec:
       containers:
       - name: app1
-        image: asia-south1-docker.pkg.dev/saas-dev-314407/demo/app1:v1
-        volumeMounts:
-        - name: log-volume
-          mountPath: /var/log/app1
+        image: kumarshubham16/app1:v1@sha256:b1be82c4bf920c41eb60b84087fa82862f05ea1befea5ae5100af6e5965bf083
         envFrom:
         - configMapRef:
             name: app1-config
