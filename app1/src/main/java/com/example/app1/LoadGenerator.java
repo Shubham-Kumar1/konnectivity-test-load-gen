@@ -83,6 +83,9 @@ public class LoadGenerator {
   }
 
   private void sendPost() {
+    String requestId = RequestLogger.generateRequestId();
+    long startTime = System.nanoTime();
+    
     try {
       String url = targetUrl + "/post";
       Map<String, Object> payload = new HashMap<>();
@@ -90,21 +93,63 @@ public class LoadGenerator {
       payload.put("sourceService", serviceName);
       payload.put("sourcePod", podName);
       payload.put("sourceHostname", hostname);
+      payload.put("requestId", requestId);
 
       HttpHeaders headers = new HttpHeaders();
       headers.setContentType(MediaType.APPLICATION_JSON);
       headers.add("X-App1-Pod", podName);
       headers.add("X-App1-Hostname", hostname);
+      headers.add("X-Request-Id", requestId);
 
       HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
 
-      long start = System.nanoTime();
-      ResponseEntity<String> resp = rest.postForEntity(url, entity, String.class);
-      long elapsedMs = (System.nanoTime() - start) / 1_000_000;
+      // Log request start
+      RequestLogger.logRequestStart(requestId, podName, url);
 
-      logger.info("[{}] Sent POST -> {} ({} ms)", Instant.now(), resp.getStatusCode(), elapsedMs);
+      long requestStart = System.nanoTime();
+      ResponseEntity<String> resp = rest.postForEntity(url, entity, String.class);
+      long requestLatencyMs = (System.nanoTime() - requestStart) / 1_000_000;
+      
+      // Extract target pod from response if available
+      String targetPod = "unknown";
+      try {
+        // Response might contain target pod info, but we'll log what we know
+        targetPod = extractTargetPodFromResponse(resp.getBody());
+      } catch (Exception e) {
+        // Ignore parsing errors
+      }
+
+      long totalLatencyMs = (System.nanoTime() - startTime) / 1_000_000;
+      
+      // Log successful request with full details
+      RequestLogger.logRequestSuccess(requestId, podName, targetPod, totalLatencyMs, resp.getStatusCode().value());
+      
+      // Additional detailed log
+      logger.debug("Request details | requestId={} | from={} | to={} | httpLatency={}ms | totalLatency={}ms | status={}", 
+          requestId, podName, targetPod, requestLatencyMs, totalLatencyMs, resp.getStatusCode());
+          
     } catch (Exception ex) {
-      logger.error("Error sending POST request: {}", ex.getMessage(), ex);
+      long totalLatencyMs = (System.nanoTime() - startTime) / 1_000_000;
+      RequestLogger.logRequestError(requestId, podName, targetUrl, totalLatencyMs, ex.getMessage());
+      logger.error("Request failed | requestId={} | from={} | error={} | latency={}ms", 
+          requestId, podName, ex.getMessage(), totalLatencyMs, ex);
     }
+  }
+  
+  private String extractTargetPodFromResponse(String responseBody) {
+    if (responseBody == null) return "unknown";
+    try {
+      // Try to extract toApp2Pod from JSON response
+      if (responseBody.contains("\"toApp2Pod\"")) {
+        int start = responseBody.indexOf("\"toApp2Pod\"") + 13;
+        int end = responseBody.indexOf("\"", start);
+        if (end > start) {
+          return responseBody.substring(start, end);
+        }
+      }
+    } catch (Exception e) {
+      // Ignore parsing errors
+    }
+    return "unknown";
   }
 }

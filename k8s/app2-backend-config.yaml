@@ -1,0 +1,18 @@
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: app2-backend-config
+  namespace: nettest
+spec:
+  timeoutSec: 300
+  connectionDraining:
+    drainingTimeoutSec: 60
+  healthCheck:
+    checkIntervalSec: 10
+    timeoutSec: 5
+    healthyThreshold: 2
+    unhealthyThreshold: 3
+    type: HTTP
+    requestPath: /health
+    port: 8080
+

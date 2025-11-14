@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: app1
-        image: kumarshubham16/app1:v1@sha256:b1be82c4bf920c41eb60b84087fa82862f05ea1befea5ae5100af6e5965bf083
+        image: asia-south1-docker.pkg.dev/saas-dev-314407/demo/app1:v6
         envFrom:
         - configMapRef:
             name: app1-config

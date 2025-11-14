@@ -3,6 +3,11 @@ kind: Service
 metadata:
   name: app2-service
   namespace: nettest
+  # annotations:
+  #   # Enable NEG (Network Endpoint Group) for GKE
+  #   cloud.google.com/neg: '{"ingress": false}'
+  #   # Optional: Uncomment to use BackendConfig for advanced features
+  #   # cloud.google.com/backend-config: '{"default": "app2-backend-config"}'
 spec:
   selector:
     app: app2
