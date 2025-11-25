@@ -4,7 +4,7 @@ metadata:
   name: app2
   namespace: nettest
 spec:
-  replicas: 2 
+  replicas: 1 
   selector:
     matchLabels:
       app: app2
@@ -15,9 +15,27 @@ spec:
     spec:
       containers:
       - name: app2
-        image: asia-south1-docker.pkg.dev/saas-dev-314407/demo/app2:v6
+        image: asia-south1-docker.pkg.dev/saas-dev-314407/demo/app2:v7
         ports:
         - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3
         volumeMounts:
         - name: log-volume
           mountPath: /var/log/app2

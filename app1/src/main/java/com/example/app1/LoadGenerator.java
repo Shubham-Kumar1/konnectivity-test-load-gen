@@ -35,42 +35,96 @@ public class LoadGenerator {
   @Value("${KEEP_ALIVE:true}")
   private boolean keepAlive;
 
+  @Value("${CONNECTION_TIMEOUT_MS:5000}")
+  private int connectionTimeoutMs;
+
+  @Value("${READ_TIMEOUT_MS:30000}")
+  private int readTimeoutMs;
+
   @Value("${POD_NAME:unknown}")
   private String podName;
 
   @Value("${HOSTNAME:unknown}")
   private String hostname;
 
+  @Value("${ENABLE_LOAD_GENERATION:false}")
+  private boolean enableLoadGeneration;
+
   private RestTemplate rest;
   private ExecutorService pool;
+  private ScheduledExecutorService scheduler;
+  private volatile boolean isRunning = false;
 
   @EventListener(ApplicationReadyEvent.class)
-  public void startLoad() {
+  public void initialize() {
     this.rest = createRestTemplate();
     this.pool = Executors.newFixedThreadPool(threadPoolSize);
+    this.scheduler = Executors.newScheduledThreadPool(1);
 
-    logger.info("=== Load Generator Started ===");
+    logger.info("=== Load Generator Initialized ===");
     logger.info("Service: {}, Pod: {}, Host: {}", serviceName, podName, hostname);
     logger.info("Target: {}, RPS: {}, Threads: {}, KeepAlive: {}", targetUrl, rps, threadPoolSize, keepAlive);
+    logger.info("Connection Timeout: {}ms, Read Timeout: {}ms", connectionTimeoutMs, readTimeoutMs);
+    logger.info("Enable Load Generation: {}", enableLoadGeneration);
     logger.info("==============================");
 
-    ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    // Only start automatically if flag is enabled
+    if (enableLoadGeneration) {
+      startLoadGeneration();
+    } else {
+      logger.info("Load generation is disabled. Use /load/start endpoint to enable.");
+    }
+  }
+
+  public synchronized void startLoadGeneration() {
+    if (isRunning) {
+      logger.warn("Load generation is already running");
+      return;
+    }
+
+    logger.info("=== Starting Load Generation ===");
+    logger.info("Target: {}, RPS: {}, Threads: {}", targetUrl, rps, threadPoolSize);
+    
+    isRunning = true;
     int perTick = Math.max(1, rps / 5);
 
     scheduler.scheduleAtFixedRate(() -> {
+      if (isRunning) {
       for (int i = 0; i < perTick; i++) {
         pool.submit(this::sendPost);
+        }
       }
     }, 0, 200, TimeUnit.MILLISECONDS);
+    
+    logger.info("Load generation started successfully");
+  }
+
+  public synchronized void stopLoadGeneration() {
+    if (!isRunning) {
+      logger.warn("Load generation is not running");
+      return;
+    }
+
+    logger.info("=== Stopping Load Generation ===");
+    isRunning = false;
+    logger.info("Load generation stopped successfully");
+  }
+
+  public boolean isLoadGenerationRunning() {
+    return isRunning;
   }
 
   private RestTemplate createRestTemplate() {
+    SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+    factory.setConnectTimeout(connectionTimeoutMs);
+    factory.setReadTimeout(readTimeoutMs);
+    
     if (keepAlive) {
-      logger.info("Using Keep-Alive");
-      return new RestTemplate();
+      logger.info("Using Keep-Alive | Connection Timeout: {}ms, Read Timeout: {}ms", connectionTimeoutMs, readTimeoutMs);
+      return new RestTemplate(factory);
     } else {
-      logger.info("Disabling Keep-Alive");
-      SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory() {
+      logger.info("Disabling Keep-Alive | Connection Timeout: {}ms, Read Timeout: {}ms", connectionTimeoutMs, readTimeoutMs);
+      SimpleClientHttpRequestFactory closeFactory = new SimpleClientHttpRequestFactory() {
         @Override
         protected void prepareConnection(java.net.HttpURLConnection conn, String method)
             throws java.io.IOException {
@@ -78,7 +132,9 @@ public class LoadGenerator {
           conn.setRequestProperty("Connection", "close");
         }
       };
-      return new RestTemplate(factory);
+      closeFactory.setConnectTimeout(connectionTimeoutMs);
+      closeFactory.setReadTimeout(readTimeoutMs);
+      return new RestTemplate(closeFactory);
     }
   }
 

@@ -4,7 +4,7 @@ metadata:
   name: app1
   namespace: nettest
 spec:
-  replicas: 2 
+  replicas: 1 
   selector:
     matchLabels:
       app: app1
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: app1
-        image: asia-south1-docker.pkg.dev/saas-dev-314407/demo/app1:v6
+        image: asia-south1-docker.pkg.dev/saas-dev-314407/demo/app1:v7
         envFrom:
         - configMapRef:
             name: app1-config

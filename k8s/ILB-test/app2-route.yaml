@@ -1,0 +1,21 @@
+# app2-route.yaml (Updated to ensure /post is handled)
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: app2-internal-route
+  namespace: nettest
+spec:
+  parentRefs:
+  - name: omni-internal-http-gateway
+    namespace: omni-system 
+  hostnames:
+  - "app2.omni-internal.com" 
+  rules:
+  - matches:
+    - path:
+        # Use PathPrefix to match /post and anything under it (if applicable)
+        type: PathPrefix
+        value: /post 
+    backendRefs:
+    - name: app2-service 
+      port: 8080
