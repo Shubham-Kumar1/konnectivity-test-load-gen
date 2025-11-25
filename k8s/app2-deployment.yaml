@@ -4,7 +4,7 @@ metadata:
   name: app2
   namespace: nettest
 spec:
-  replicas: 2 
+  replicas: 1 
   selector:
     matchLabels:
       app: app2
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: app2
-        image: asia-south1-docker.pkg.dev/saas-dev-314407/demo/app2:v6
+        image: kumarshubham16/app2:v11
         ports:
         - containerPort: 8080
         volumeMounts:
@@ -38,8 +38,8 @@ spec:
         emptyDir: {}
       resources:
         requests:
-          cpu: 100m
-          memory: 128Mi
+          cpu: 50m
+          memory: 75Mi
         limits:
-          cpu: 200m
-          memory: 256Mi
+          cpu: 50m
+          memory: 75Mi

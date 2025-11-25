@@ -4,7 +4,7 @@ metadata:
   name: app1
   namespace: nettest
 spec:
-  replicas: 2 
+  replicas: 1
   selector:
     matchLabels:
       app: app1
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: app1
-        image: asia-south1-docker.pkg.dev/saas-dev-314407/demo/app1:v6
+        image: kumarshubham16/app1:v11
         envFrom:
         - configMapRef:
             name: app1-config
@@ -33,8 +33,8 @@ spec:
         emptyDir: {}
       resources:
         requests:
-          cpu: 100m
-          memory: 128Mi
+          cpu: 50m
+          memory: 75Mi
         limits:
-          cpu: 200m
-          memory: 256Mi
+          cpu: 50m
+          memory: 75Mi
