@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-internal-ingress
+  namespace: ingress-nginx
+labels:
+  app: nginx-internal-ingress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-internal-ingress
+  template:
+    metadata:
+      labels:
+        app: nginx-internal-ingress
+    spec:
+      serviceAccountName: nginx-internal-ingress
+      containers:
+      - name: controller
+        image: k8s.gcr.io/ingress-nginx/controller:v1.11.2
+        args:
+          - /nginx-ingress-controller
+        ports:
+          - name: http
+            containerPort: 80
+          - name: https
+            containerPort: 443
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-internal-ingress
+  namespace: ingress-nginx
+spec:
+  type: ClusterIP   # INTERNAL ONLY
+  selector:
+    app: nginx-internal-ingress
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+  - name: https
+    port: 443
+    targetPort: https
+

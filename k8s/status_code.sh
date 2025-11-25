@@ -5,33 +5,39 @@ CURRENT_TIME=$(date +%s)
 
 # Iterate through each pod with the app2 label
 for p in $(kubectl get pods -l app=app2 -o jsonpath='{.items[*].metadata.name}'); do
-  echo -n "$p "
+  echo -e "\nStatus report for pod: $p"
 
-  # Use kubectl exec to read from the log file inside the pod
+  # Use kubectl exec to read from the log file inside the pod and check for HTTP status codes
   kubectl exec "$p" -- sh -c "
     cat /var/log/app2/app2.log | \
     while read line; do
       # Extract the timestamp from the log (assuming format [YYYY-MM-DDTHH:MM:SS.sssZ])
-      log_time=$(echo \$line | sed -n 's/.*\[\([^]]*\)\].*/\1/p')
+      log_time=\$(echo \$line | sed -n 's/.*\[\([^]]*\)\].*/\1/p')
 
       # Check if the timestamp is found and is valid
-      if [ -z "\$log_time" ]; then
+      if [ -z \"\$log_time\" ]; then
         continue
       fi
 
       # Convert log_time to Unix timestamp (MacOS version)
-      log_timestamp=\$(date -j -f "%Y-%m-%dT%H:%M:%S" "\$log_time" +%s 2>/dev/null)
+      log_timestamp=\$(date -j -f '%Y-%m-%dT%H:%M:%S' \"\$log_time\" +%s 2>/dev/null)
 
       # If the date conversion failed, skip this line
-      if [ -z "\$log_timestamp" ]; then
+      if [ -z \"\$log_timestamp\" ]; then
         continue
       fi
 
       # Check if the log timestamp is within the last hour
       if [ \$((CURRENT_TIME - log_timestamp)) -le \$H ]; then
-        echo \$line
+        # Extract the HTTP status code (e.g., Sent POST -> 200 OK)
+        status_code=\$(echo \$line | sed -n 's/.*\([0-9]\{3\}\) OK.*/\1/p')
+
+        # If a valid status code is found, count it
+        if [ -n "\$status_code" ]; then
+          echo \$status_code
+        fi
       fi
     done
-  " | grep -c "from app1"
+  " | sort | uniq -c
 done
 

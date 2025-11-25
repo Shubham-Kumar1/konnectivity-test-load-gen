@@ -5,7 +5,13 @@ metadata:
   namespace: nettest
 data:
   SERVICE_NAME: "app1-loadgen"
-  TARGET_URL: "http://app2.internal.local"
-  LOAD_RPS: "10"
+  # Target the gateway hostname on port 80 (Gateway listens on 80, routes to backend on 8080)
+  TARGET_URL: "http://app2-service:8080" 
+  LOAD_RPS: "2"
   THREAD_POOL_SIZE: "500"
   KEEP_ALIVE: "true"
+  ENABLE_LOAD_GENERATION: "true"
+  # Connection timeout in milliseconds (time to establish connection)
+  CONNECTION_TIMEOUT_MS: "5000"
+  # Read timeout in milliseconds (time to wait for response)
+  READ_TIMEOUT_MS: "30000"

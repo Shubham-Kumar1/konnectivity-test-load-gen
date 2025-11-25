@@ -5,4 +5,8 @@ metadata:
   namespace: nettest
 data:
   RESPONSE_DELAY_MS: "500"
+  # Server connection timeout in milliseconds (Spring Boot server.tomcat.connection-timeout)
+  SERVER_CONNECTION_TIMEOUT_MS: "20000"
+  # Server keep-alive timeout in milliseconds (Spring Boot server.tomcat.keep-alive-timeout)
+  SERVER_KEEP_ALIVE_TIMEOUT_MS: "20000"
   

@@ -1,0 +1,285 @@
+Processing pod: app1-6c68676d88-866sd
+Latency distribution report for pod: app1-6c68676d88-866sd:
+Generated: 2025-11-11T11:46:05Z
+Log lines counted: 75687
+
+Buckets (ms):
+  400–499ms:    0
+  500–999ms:    0
+  1000–1999ms:  6284
+  2000–4999ms:  13494
+  5000–9999ms:  13681
+  >=10000ms:    42228
+
+Summary stats:
+  min:   1000 ms
+  avg:   20604.59 ms
+  p50:   31028 ms
+  p95:   37014 ms
+  max:   38006 ms
+Processing pod: app1-6c68676d88-8qkxw
+Latency distribution report for pod: app1-6c68676d88-8qkxw:
+Generated: 2025-11-11T11:46:12Z
+Log lines counted: 94970
+
+Buckets (ms):
+  400–499ms:    0
+  500–999ms:    0
+  1000–1999ms:  7717
+  2000–4999ms:  22504
+  5000–9999ms:  25738
+  >=10000ms:    39011
+
+Summary stats:
+  min:   1000 ms
+  avg:   16454.25 ms
+  p50:   6004 ms
+  p95:   37010 ms
+  max:   38005 ms
+Processing pod: app1-6c68676d88-9xnhf
+Latency distribution report for pod: app1-6c68676d88-9xnhf:
+Generated: 2025-11-11T11:46:18Z
+Log lines counted: 68718
+
+Buckets (ms):
+  400–499ms:    0
+  500–999ms:    0
+  1000–1999ms:  5793
+  2000–4999ms:  11315
+  5000–9999ms:  7874
+  >=10000ms:    43736
+
+Summary stats:
+  min:   1000 ms
+  avg:   22778.99 ms
+  p50:   32006 ms
+  p95:   37015 ms
+  max:   38006 ms
+Processing pod: app1-6c68676d88-cq9dx
+Latency distribution report for pod: app1-6c68676d88-cq9dx:
+Generated: 2025-11-11T11:46:23Z
+Log lines counted: 75977
+
+Buckets (ms):
+  400–499ms:    0
+  500–999ms:    0
+  1000–1999ms:  7457
+  2000–4999ms:  14149
+  5000–9999ms:  11661
+  >=10000ms:    42710
+
+Summary stats:
+  min:   1000 ms
+  avg:   20624.94 ms
+  p50:   31031 ms
+  p95:   37015 ms
+  max:   38008 ms
+Processing pod: app1-6c68676d88-m74p2
+Latency distribution report for pod: app1-6c68676d88-m74p2:
+Generated: 2025-11-11T11:46:30Z
+Log lines counted: 94101
+
+Buckets (ms):
+  400–499ms:    0
+  500–999ms:    0
+  1000–1999ms:  11700
+  2000–4999ms:  28268
+  5000–9999ms:  13099
+  >=10000ms:    41034
+
+Summary stats:
+  min:   1000 ms
+  avg:   16672.83 ms
+  p50:   6003 ms
+  p95:   37010 ms
+  max:   38006 ms
+Processing pod: app1-6c68676d88-mhdw9
+Latency distribution report for pod: app1-6c68676d88-mhdw9:
+Generated: 2025-11-11T11:46:35Z
+Log lines counted: 72665
+
+Buckets (ms):
+  400–499ms:    0
+  500–999ms:    0
+  1000–1999ms:  8910
+  2000–4999ms:  10627
+  5000–9999ms:  9492
+  >=10000ms:    43636
+
+Summary stats:
+  min:   1000 ms
+  avg:   21653.08 ms
+  p50:   31940 ms
+  p95:   37015 ms
+  max:   38006 ms
+Processing pod: app1-6c68676d88-mlvqf
+Latency distribution report for pod: app1-6c68676d88-mlvqf:
+Generated: 2025-11-11T11:46:40Z
+Log lines counted: 70639
+
+Buckets (ms):
+  400–499ms:    0
+  500–999ms:    0
+  1000–1999ms:  8485
+  2000–4999ms:  8624
+  5000–9999ms:  9728
+  >=10000ms:    43802
+
+Summary stats:
+  min:   1000 ms
+  avg:   22298.99 ms
+  p50:   31983 ms
+  p95:   37016 ms
+  max:   38009 ms
+Processing pod: app1-6c68676d88-p2xbz
+Latency distribution report for pod: app1-6c68676d88-p2xbz:
+Generated: 2025-11-11T11:46:45Z
+Log lines counted: 81930
+
+Buckets (ms):
+  400–499ms:    0
+  500–999ms:    0
+  1000–1999ms:  8498
+  2000–4999ms:  14468
+  5000–9999ms:  17036
+  >=10000ms:    41928
+
+Summary stats:
+  min:   1000 ms
+  avg:   19259.91 ms
+  p50:   31014 ms
+  p95:   37014 ms
+  max:   38011 ms
+Processing pod: app1-6c68676d88-q5ktr
+Latency distribution report for pod: app1-6c68676d88-q5ktr:
+Generated: 2025-11-11T11:46:51Z
+Log lines counted: 95517
+
+Buckets (ms):
+  400–499ms:    0
+  500–999ms:    0
+  1000–1999ms:  12055
+  2000–4999ms:  25077
+  5000–9999ms:  17625
+  >=10000ms:    40760
+
+Summary stats:
+  min:   1000 ms
+  avg:   16558.99 ms
+  p50:   6004 ms
+  p95:   37012 ms
+  max:   38008 ms
+Processing pod: app1-6c68676d88-qfjvw
+Latency distribution report for pod: app1-6c68676d88-qfjvw:
+Generated: 2025-11-11T11:46:58Z
+Log lines counted: 99938
+
+Buckets (ms):
+  400–499ms:    0
+  500–999ms:    0
+  1000–1999ms:  9204
+  2000–4999ms:  33560
+  5000–9999ms:  16762
+  >=10000ms:    40412
+
+Summary stats:
+  min:   1000 ms
+  avg:   15855.38 ms
+  p50:   6000 ms
+  p95:   37011 ms
+  max:   38008 ms
+Processing pod: app1-6c68676d88-s8pr2
+Latency distribution report for pod: app1-6c68676d88-s8pr2:
+Generated: 2025-11-11T11:47:04Z
+Log lines counted: 86826
+
+Buckets (ms):
+  400–499ms:    0
+  500–999ms:    0
+  1000–1999ms:  8535
+  2000–4999ms:  18140
+  5000–9999ms:  18653
+  >=10000ms:    41498
+
+Summary stats:
+  min:   1000 ms
+  avg:   18285.87 ms
+  p50:   6988 ms
+  p95:   37014 ms
+  max:   38008 ms
+Processing pod: app1-6c68676d88-stzp4
+Latency distribution report for pod: app1-6c68676d88-stzp4:
+Generated: 2025-11-11T11:47:10Z
+Log lines counted: 90985
+
+Buckets (ms):
+  400–499ms:    0
+  500–999ms:    0
+  1000–1999ms:  13387
+  2000–4999ms:  15686
+  5000–9999ms:  20732
+  >=10000ms:    41180
+
+Summary stats:
+  min:   1000 ms
+  avg:   17477.46 ms
+  p50:   6009 ms
+  p95:   37014 ms
+  max:   38010 ms
+Processing pod: app1-6c68676d88-tcfb8
+Latency distribution report for pod: app1-6c68676d88-tcfb8:
+Generated: 2025-11-11T11:47:15Z
+Log lines counted: 72106
+
+Buckets (ms):
+  400–499ms:    0
+  500–999ms:    0
+  1000–1999ms:  6942
+  2000–4999ms:  10065
+  5000–9999ms:  11015
+  >=10000ms:    44084
+
+Summary stats:
+  min:   1000 ms
+  avg:   22122.13 ms
+  p50:   31981 ms
+  p95:   37017 ms
+  max:   38013 ms
+Processing pod: app1-6c68676d88-xr9dp
+Latency distribution report for pod: app1-6c68676d88-xr9dp:
+Generated: 2025-11-11T11:47:21Z
+Log lines counted: 80236
+
+Buckets (ms):
+  400–499ms:    0
+  500–999ms:    0
+  1000–1999ms:  7683
+  2000–4999ms:  15139
+  5000–9999ms:  14605
+  >=10000ms:    42809
+
+Summary stats:
+  min:   1000 ms
+  avg:   19884.27 ms
+  p50:   31020 ms
+  p95:   37016 ms
+  max:   38008 ms
+Processing pod: app1-6c68676d88-xv2pl
+Latency distribution report for pod: app1-6c68676d88-xv2pl:
+Generated: 2025-11-11T11:47:26Z
+Log lines counted: 76082
+
+Buckets (ms):
+  400–499ms:    0
+  500–999ms:    0
+  1000–1999ms:  9049
+  2000–4999ms:  14743
+  5000–9999ms:  8161
+  >=10000ms:    44129
+
+Summary stats:
+  min:   1000 ms
+  avg:   20995.83 ms
+  p50:   31070 ms
+  p95:   37017 ms
+  max:   38008 ms

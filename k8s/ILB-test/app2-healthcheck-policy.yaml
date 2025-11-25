@@ -1,0 +1,21 @@
+# app2-healthcheck-policy.yaml
+apiVersion: networking.gke.io/v1
+kind: HealthCheckPolicy
+metadata:
+  name: app2-custom-hc
+  namespace: nettest
+spec:
+  targetRef:
+    group: ""
+    kind: Service
+    name: app2-service # Targets your existing app2-service
+  default:
+    config:
+      type: HTTP
+      httpHealthCheck:
+        # 🔑 CRITICAL FIX: This is the only configuration needed for the path override.
+        requestPath: /health 
+        port: 8080 
+        # Optional: Keep the 'response' field if your app returns a specific JSON body for status
+        # If your app returns a simple 200 OK, you can remove this line too.
+        # response: '{"status":"UP"}'
