@@ -5,11 +5,9 @@ metadata:
   name: app2-service
   namespace: nettest
 spec:
-  # The HTTPRoute can use ClusterIP Services with or without a headless (clusterIP: None) setting.
-  # For RILB, the selector is key to finding the pods.
   type: ClusterIP 
   selector:
-    app: app2 # MUST match the label on your app2 deployment (app: app2)
+    app: app2 # Matches the app2 Deployment labels
   ports:
-  - port: 8080        # The port the service exposes (used in the HTTPRoute backendRefs)
-    targetPort: 8080  # The port the app2 container is listening on (confirmed by logs)
+  - port: 8080        # Service port (used by Ingress Backend)
+    targetPort: 8080  # Container port

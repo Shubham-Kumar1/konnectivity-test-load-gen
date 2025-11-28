@@ -1,3 +1,4 @@
+# app2-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,24 +19,6 @@ spec:
         image: asia-south1-docker.pkg.dev/saas-dev-314407/demo/app2:v7
         ports:
         - containerPort: 8080
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          timeoutSeconds: 3
-          successThreshold: 1
-          failureThreshold: 3
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 3
-          successThreshold: 1
-          failureThreshold: 3
         volumeMounts:
         - name: log-volume
           mountPath: /var/log/app2
@@ -51,13 +34,23 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        # --- FIX: READINESS PROBE FOR HEALTH CHECK ---
+        readinessProbe:
+          httpGet:
+            path: /health             # Assumes /health returns 200 OK
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 2
+        # ------------------------------------
       volumes:
       - name: log-volume
         emptyDir: {}
       resources:
         requests:
-          cpu: 100m
+          cpu: 50m
           memory: 128Mi
         limits:
-          cpu: 200m
+          cpu: 100m
           memory: 256Mi

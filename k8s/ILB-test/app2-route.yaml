@@ -15,7 +15,7 @@ spec:
     - path:
         # Use PathPrefix to match /post and anything under it (if applicable)
         type: PathPrefix
-        value: /post 
+        value: <client-name>-<svc>
     backendRefs:
     - name: app2-service 
       port: 8080
