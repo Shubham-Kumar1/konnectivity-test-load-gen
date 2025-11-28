@@ -9,5 +9,8 @@ spec:
   selector:
     app: app2 # Matches the app2 Deployment labels
   ports:
-  - port: 8080        # Service port (used by Ingress Backend)
-    targetPort: 8080  # Container port
+  - name: http
+    port: 8080
+    targetPort: 8080
+  type: ClusterIP
+

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: app2
-        image: asia-south1-docker.pkg.dev/saas-dev-314407/demo/app2:v7
+        image: kumarshubham16/app2:v11
         ports:
         - containerPort: 8080
         volumeMounts:
@@ -50,7 +50,7 @@ spec:
       resources:
         requests:
           cpu: 50m
-          memory: 128Mi
+          memory: 75Mi
         limits:
-          cpu: 100m
-          memory: 256Mi
+          cpu: 50m
+          memory: 75Mi
