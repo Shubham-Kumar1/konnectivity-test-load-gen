@@ -5,7 +5,7 @@ metadata:
   namespace: nettest
 data:
   SERVICE_NAME: "app1-loadgen"
-  TARGET_URL: "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/app2"
+  TARGET_URL: "http://10.128.0.19/api/app2"
   LOAD_RPS: "2"
   THREAD_POOL_SIZE: "500"
   KEEP_ALIVE: "true"

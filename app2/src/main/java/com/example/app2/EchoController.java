@@ -72,6 +72,11 @@ public class EchoController {
     return ResponseEntity.ok(resp);
   }
 
+  @GetMapping("/")
+  public String root() {
+    return "OK";
+  }
+
   @GetMapping("/ping")
   public String ping() {
     return "pong";

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: app2
-        image: kumarshubham16/app2:v11
+        image: kumarshubham16/app2:v12
         ports:
         - containerPort: 8080
         volumeMounts:
